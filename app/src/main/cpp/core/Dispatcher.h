@@ -39,6 +39,7 @@ private:
     std::string handleSetSetting(const std::string& payload);
     std::string handleGetSetting(const std::string& payload);
     std::string handleFloatingMenu();
+    std::string handleClawdConfig();
     std::string handleNavigate(const std::string& target);
     std::string handleComingSoon(const std::string& action);
 };

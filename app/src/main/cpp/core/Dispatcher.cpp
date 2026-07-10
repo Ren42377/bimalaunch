@@ -16,6 +16,16 @@ std::string payloadString(const std::string& payload, const char* key) {
     }
     return std::string();
 }
+
+int parseIntOr(const std::string& value, int fallback) {
+    if (value.empty()) return fallback;
+    int result = 0;
+    for (char c : value) {
+        if (c < '0' || c > '9') return fallback;
+        result = result * 10 + (c - '0');
+    }
+    return result;
+}
 }
 
 Dispatcher::Dispatcher(Registry& registry,
@@ -37,6 +47,7 @@ std::string Dispatcher::dispatch(const std::string& action, const std::string& p
     if (action == "set_setting") return handleSetSetting(payload);
     if (action == "get_setting") return handleGetSetting(payload);
     if (action == "floating_menu") return handleFloatingMenu();
+    if (action == "clawd_detector_config") return handleClawdConfig();
     if (action == "open_settings") return handleNavigate("settings");
     if (action == "open_webview") return handleNavigate("webview");
     if (action == "open_clawd" || action == "open_ai" || action == "open_floating") {
@@ -190,6 +201,34 @@ std::string Dispatcher::handleFloatingMenu() {
     result["ok"] = true;
     result["effect"] = "data";
     result["data"] = json::parse(registry_.buildFloatingMenu(), nullptr, false);
+    return result.dump();
+}
+
+std::string Dispatcher::handleClawdConfig() {
+    json labels = json::array({
+        "question_area", "a", "b", "c", "d", "e",
+        "button_prev", "button_next", "question_list_button",
+        "question_list_popup_close", "question_number",
+        "question_number_answered", "question_number_unanswered",
+        "question_number_current"
+    });
+
+    json config;
+    config["modelAsset"] = "clawd/clawd_v2_f16.tflite";
+    config["labels"] = labels;
+    config["confidenceThreshold"] = 0.25;
+    config["nmsIouThreshold"] = 0.45;
+    config["globalDuplicateIouThreshold"] = 0.38;
+    config["runtime"] = state_.setting("clawd_runtime", "cpu");
+    config["cpuThreads"] = parseIntOr(state_.setting("clawd_cpu_threads", "2"), 2);
+    config["alwaysOnDefault"] = state_.boolSetting("clawd_always_on", false);
+    config["drawBoxDefault"] = state_.boolSetting("clawd_draw_box", false);
+    config["pollIntervalMs"] = 1500;
+
+    json result;
+    result["ok"] = true;
+    result["effect"] = "data";
+    result["data"] = config;
     return result.dump();
 }
 

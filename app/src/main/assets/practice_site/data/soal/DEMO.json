@@ -1,0 +1,168 @@
+{
+  "kode": "DEMO",
+  "mapelConfig": {
+    "id": "DEMO",
+    "kode": "DEMO",
+    "tanggal": "",
+    "waktu": "",
+    "nama": "Simulasi Ujian",
+    "subtest": "Simulasi",
+    "alokasi": "30",
+    "jumlahsoal": "5",
+    "dikerjakan": "5",
+    "status": "Aktif",
+    "shuffle": "0",
+    "shuffle2": "0",
+    "grouping": {},
+    "locking": {}
+  },
+  "kunci": {
+    "id": "DEMO",
+    "kunci": {
+      "1": "A",
+      "2": "B",
+      "3": "C",
+      "4": "D",
+      "5": "E"
+    },
+    "bobot": {
+      "1": "20",
+      "2": "20",
+      "3": "20",
+      "4": "20",
+      "5": "20"
+    }
+  },
+  "soal": [
+    {
+      "noasli": 1,
+      "soal": "<p>Contoh soal simulasi nomor 1.</p>",
+      "options": [
+        {
+          "optionasli": "A",
+          "answer": "Pilihan A"
+        },
+        {
+          "optionasli": "B",
+          "answer": "Pilihan B"
+        },
+        {
+          "optionasli": "C",
+          "answer": "Pilihan C"
+        },
+        {
+          "optionasli": "D",
+          "answer": "Pilihan D"
+        },
+        {
+          "optionasli": "E",
+          "answer": "Pilihan E"
+        }
+      ]
+    },
+    {
+      "noasli": 2,
+      "soal": "<p>Contoh soal simulasi nomor 2.</p>",
+      "options": [
+        {
+          "optionasli": "A",
+          "answer": "Pilihan A"
+        },
+        {
+          "optionasli": "B",
+          "answer": "Pilihan B"
+        },
+        {
+          "optionasli": "C",
+          "answer": "Pilihan C"
+        },
+        {
+          "optionasli": "D",
+          "answer": "Pilihan D"
+        },
+        {
+          "optionasli": "E",
+          "answer": "Pilihan E"
+        }
+      ]
+    },
+    {
+      "noasli": 3,
+      "soal": "<p>Contoh soal simulasi nomor 3.</p>",
+      "options": [
+        {
+          "optionasli": "A",
+          "answer": "Pilihan A"
+        },
+        {
+          "optionasli": "B",
+          "answer": "Pilihan B"
+        },
+        {
+          "optionasli": "C",
+          "answer": "Pilihan C"
+        },
+        {
+          "optionasli": "D",
+          "answer": "Pilihan D"
+        },
+        {
+          "optionasli": "E",
+          "answer": "Pilihan E"
+        }
+      ]
+    },
+    {
+      "noasli": 4,
+      "soal": "<p>Contoh soal simulasi nomor 4.</p>",
+      "options": [
+        {
+          "optionasli": "A",
+          "answer": "Pilihan A"
+        },
+        {
+          "optionasli": "B",
+          "answer": "Pilihan B"
+        },
+        {
+          "optionasli": "C",
+          "answer": "Pilihan C"
+        },
+        {
+          "optionasli": "D",
+          "answer": "Pilihan D"
+        },
+        {
+          "optionasli": "E",
+          "answer": "Pilihan E"
+        }
+      ]
+    },
+    {
+      "noasli": 5,
+      "soal": "<p>Contoh soal simulasi nomor 5.</p>",
+      "options": [
+        {
+          "optionasli": "A",
+          "answer": "Pilihan A"
+        },
+        {
+          "optionasli": "B",
+          "answer": "Pilihan B"
+        },
+        {
+          "optionasli": "C",
+          "answer": "Pilihan C"
+        },
+        {
+          "optionasli": "D",
+          "answer": "Pilihan D"
+        },
+        {
+          "optionasli": "E",
+          "answer": "Pilihan E"
+        }
+      ]
+    }
+  ]
+}

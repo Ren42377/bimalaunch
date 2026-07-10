@@ -1,0 +1,276 @@
+/* Local visual fidelity overrides for the practice CBT screens. */
+body {
+  background: #ffffff;
+}
+
+.local-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.56);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1040;
+  transition: opacity 0.18s ease;
+}
+
+.local-modal-backdrop.show {
+  opacity: 1;
+}
+
+#header {
+  height: 200px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  padding-top: 22px !important;
+  padding-bottom: 22px !important;
+}
+
+#header .container {
+  max-width: 100%;
+}
+
+#header .col-md > .row {
+  align-items: center;
+}
+
+#header img {
+  height: 72px !important;
+}
+
+#header h1 {
+  font-size: 2rem !important;
+  line-height: 1.08;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+#header h3 {
+  font-size: 1.1rem !important;
+  line-height: 1.25;
+  margin: 4px 0 0;
+  font-weight: 400;
+}
+
+#header + .container .card {
+  border: 1px solid #dddddd;
+  border-radius: 4px;
+  box-shadow: none;
+}
+
+#header + .container .card-footer {
+  background: #f7f7f7;
+  border-top: 1px solid #dddddd;
+}
+
+#header + .container .card-body.px-5.pt-5 {
+  padding: 48px 52px 42px !important;
+}
+
+#header + .container .card-body.px-5.pt-5 h3 {
+  font-size: 2.35rem;
+  line-height: 1.15;
+  margin-bottom: 22px;
+  font-weight: 400;
+}
+
+#header + .container .card-body.px-5.pt-5 p {
+  font-size: 1.35rem;
+  line-height: 1.55;
+  margin-bottom: 30px;
+}
+
+#header + .container .card-body.px-5.pt-5 [style*="color:red"],
+#header + .container .card-body.px-5.pt-5 [style*="color: red"] {
+  color: #ee0000 !important;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  margin-bottom: 34px;
+}
+
+#header + .container .input-group {
+  margin-bottom: 18px;
+}
+
+#header + .container .input-group-text {
+  min-width: 48px;
+  justify-content: center;
+  background: #e9ecef;
+  color: #495057;
+  border-color: #d5d5d5;
+}
+
+#header + .container .form-control {
+  height: 44px;
+  border-color: #d5d5d5;
+  font-size: 1rem;
+}
+
+#header + .container #submitLogin,
+#header + .container #submitLogin + .btn {
+  height: 46px;
+  font-size: 1.1rem;
+}
+
+#header + .container #submitLogin {
+  margin-top: 28px !important;
+}
+
+.q {
+  font-size: 1.35rem;
+  line-height: 1.55;
+}
+
+.q p {
+  margin-bottom: 0;
+}
+
+.options-group {
+  margin-top: 58px;
+}
+
+.options {
+  display: flex;
+  align-items: flex-start;
+  min-height: 62px;
+  margin: 0 0 28px;
+}
+
+.options p,
+.options > div {
+  left: auto;
+  max-width: none;
+  margin: 0;
+  font-size: 1.35rem;
+  line-height: 1.35;
+}
+
+span.option {
+  position: relative;
+  top: auto;
+  flex: 0 0 auto;
+  margin-right: 32px;
+}
+
+.option {
+  width: 30px;
+  height: 30px;
+  border-width: 3px;
+  color: #bcbcbc;
+  border-color: #c8c8c8;
+  font-size: 18px;
+}
+
+span.inneroption {
+  left: 5px;
+  top: -1px;
+}
+
+@media (max-width: 768px) {
+  #header {
+    height: 200px !important;
+    margin-bottom: 24px !important;
+  }
+
+  #header .col-md > .row {
+    flex-direction: column;
+    justify-content: center !important;
+    text-align: center;
+  }
+
+  #header .col-md > .row > .col-auto {
+    width: 100%;
+  }
+
+  #header img {
+    height: 66px !important;
+    margin-bottom: 14px;
+  }
+
+  #header h1 {
+    font-size: 1.72rem !important;
+  }
+
+  #header h3 {
+    font-size: 1rem !important;
+    font-weight: 700;
+  }
+
+  #header + .container {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  #header + .container .col-11 {
+    flex: 0 0 92%;
+    max-width: 92%;
+  }
+
+  #header + .container .card-body.px-5.pt-5 {
+    padding: 48px 48px 36px !important;
+  }
+
+  #header + .container .card-body.px-5.pt-5 h3 {
+    font-size: 2rem;
+  }
+
+  #header + .container .card-body.px-5.pt-5 p {
+    font-size: 1.14rem;
+  }
+
+  #header + .container .card-body.px-5.pt-5 [style*="color:red"],
+  #header + .container .card-body.px-5.pt-5 [style*="color: red"] {
+    font-size: 1.08rem;
+  }
+
+  #header + .container.pb-3,
+  #header + .container.pb-4 {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  #header + .container.pb-3 > .row > .col,
+  #header + .container.pb-4 > .row > .col {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  #header + .container.pb-3 > .row > .col > .card,
+  #header + .container.pb-4 > .row > .col > .card {
+    margin-top: 32px;
+  }
+
+  #header + .container .btn-group .btn {
+    min-height: 44px;
+  }
+
+  .q {
+    font-size: 1.35rem;
+    line-height: 1.55;
+  }
+
+  .options-group {
+    margin-top: 54px;
+  }
+
+  .options {
+    min-height: 58px;
+    margin-bottom: 26px;
+  }
+
+  .options p,
+  .options > div {
+    font-size: 1.32rem;
+  }
+}
+
+@media (max-width: 390px) {
+  #header h1 {
+    font-size: 1.55rem !important;
+  }
+
+  #header + .container .card-body.px-5.pt-5 {
+    padding-left: 34px !important;
+    padding-right: 34px !important;
+  }
+}

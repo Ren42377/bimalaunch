@@ -1,0 +1,259 @@
+{
+  "cbtIndex": 0,
+  "admin": {
+    "username": "admin",
+    "password": "admin123"
+  },
+  "pengawas": [
+    {
+      "nama": "Pengawas Simulasi",
+      "username": "pengawas",
+      "password": "pass",
+      "server": "SRV-LOCAL"
+    }
+  ],
+  "pentest": {
+    "allmapel": 1,
+    "allmapel_pengawas": 0,
+    "ataspassinggrade": "",
+    "autologin": 0,
+    "autotoken": 0,
+    "bawahpassinggrade": "",
+    "blogdescription": "Computer Based Test (CBT)",
+    "bolehdaftar": 0,
+    "bolehkumpul": 1,
+    "bolehlogout": 1,
+    "examkey": "LOCAL",
+    "examtimer": 1,
+    "excelkey": "",
+    "gdrive_parent": "",
+    "gdrive_token": "",
+    "iframe": 0,
+    "ifselesai": "Logout",
+    "kartu_baris_1": "",
+    "kartu_baris_2": "",
+    "kartu_baris_3": "",
+    "logingoogle": false,
+    "logo": "/logo192.png",
+    "minimalsisawaktu": 0,
+    "modetimer": "Dynamic",
+    "namasekolah": "Simulasi Ujian",
+    "nextrefresh": "",
+    "nilaipassinggrade": 0,
+    "nilai_pengawas": 1,
+    "passwordadmin": "",
+    "pttoken": "",
+    "shownamasekolah": 1,
+    "shownilai": 0,
+    "timezone": "Asia/Jakarta",
+    "token": "",
+    "wajibreset": 0,
+    "waktutoken": "360",
+    "welcome": "<p>Selamat datang di simulasi ujian.</p>",
+    "pesangagallogin": "",
+    "pesanbanned": "Username anda telah diblokir.",
+    "tema": "theme1",
+    "headerBackground": "",
+    "appsignature": "local-practice",
+    "useragent": "local-practice",
+    "wajibexam": "Useragent",
+    "importsoal_pengawas": "1",
+    "forceselesai_pengawas": "1",
+    "wajibexam2": "",
+    "wajibexam3": ""
+  },
+  "mapel": {
+    "DEMO": {
+      "id": "DEMO",
+      "kode": "DEMO",
+      "tanggal": "",
+      "waktu": "",
+      "nama": "Simulasi Ujian",
+      "subtest": "Simulasi",
+      "alokasi": "30",
+      "jumlahsoal": "5",
+      "dikerjakan": "5",
+      "status": "Aktif",
+      "shuffle": "0",
+      "shuffle2": "0",
+      "grouping": {},
+      "locking": {}
+    }
+  },
+  "students": [
+    {
+      "id": "DEMO-USER",
+      "mapel": "DEMO",
+      "indexkey": "0:DEMO:USER",
+      "indexmapel": "0:DEMO",
+      "nilai": 0,
+      "nama": "Siswa Simulasi",
+      "nik": "LOCAL",
+      "nik2": "LOCAL",
+      "nis": "0001",
+      "pass": "pass",
+      "password": "pass",
+      "server": "SRV-LOCAL",
+      "sesi": "1",
+      "user": "user",
+      "username": "user",
+      "sisawaktu": 30,
+      "status": 0,
+      "jawaban": "{}",
+      "timestamp": "[]"
+    }
+  ],
+  "datakunci": {
+    "DEMO": {
+      "id": "DEMO",
+      "kunci": {
+        "1": "A",
+        "2": "B",
+        "3": "C",
+        "4": "D",
+        "5": "E"
+      },
+      "bobot": {
+        "1": "20",
+        "2": "20",
+        "3": "20",
+        "4": "20",
+        "5": "20"
+      }
+    }
+  },
+  "soal": {
+    "DEMO": [
+      {
+        "noasli": 1,
+        "soal": "<p>Contoh soal simulasi nomor 1.</p>",
+        "options": [
+          {
+            "optionasli": "A",
+            "answer": "Pilihan A"
+          },
+          {
+            "optionasli": "B",
+            "answer": "Pilihan B"
+          },
+          {
+            "optionasli": "C",
+            "answer": "Pilihan C"
+          },
+          {
+            "optionasli": "D",
+            "answer": "Pilihan D"
+          },
+          {
+            "optionasli": "E",
+            "answer": "Pilihan E"
+          }
+        ]
+      },
+      {
+        "noasli": 2,
+        "soal": "<p>Contoh soal simulasi nomor 2.</p>",
+        "options": [
+          {
+            "optionasli": "A",
+            "answer": "Pilihan A"
+          },
+          {
+            "optionasli": "B",
+            "answer": "Pilihan B"
+          },
+          {
+            "optionasli": "C",
+            "answer": "Pilihan C"
+          },
+          {
+            "optionasli": "D",
+            "answer": "Pilihan D"
+          },
+          {
+            "optionasli": "E",
+            "answer": "Pilihan E"
+          }
+        ]
+      },
+      {
+        "noasli": 3,
+        "soal": "<p>Contoh soal simulasi nomor 3.</p>",
+        "options": [
+          {
+            "optionasli": "A",
+            "answer": "Pilihan A"
+          },
+          {
+            "optionasli": "B",
+            "answer": "Pilihan B"
+          },
+          {
+            "optionasli": "C",
+            "answer": "Pilihan C"
+          },
+          {
+            "optionasli": "D",
+            "answer": "Pilihan D"
+          },
+          {
+            "optionasli": "E",
+            "answer": "Pilihan E"
+          }
+        ]
+      },
+      {
+        "noasli": 4,
+        "soal": "<p>Contoh soal simulasi nomor 4.</p>",
+        "options": [
+          {
+            "optionasli": "A",
+            "answer": "Pilihan A"
+          },
+          {
+            "optionasli": "B",
+            "answer": "Pilihan B"
+          },
+          {
+            "optionasli": "C",
+            "answer": "Pilihan C"
+          },
+          {
+            "optionasli": "D",
+            "answer": "Pilihan D"
+          },
+          {
+            "optionasli": "E",
+            "answer": "Pilihan E"
+          }
+        ]
+      },
+      {
+        "noasli": 5,
+        "soal": "<p>Contoh soal simulasi nomor 5.</p>",
+        "options": [
+          {
+            "optionasli": "A",
+            "answer": "Pilihan A"
+          },
+          {
+            "optionasli": "B",
+            "answer": "Pilihan B"
+          },
+          {
+            "optionasli": "C",
+            "answer": "Pilihan C"
+          },
+          {
+            "optionasli": "D",
+            "answer": "Pilihan D"
+          },
+          {
+            "optionasli": "E",
+            "answer": "Pilihan E"
+          }
+        ]
+      }
+    ]
+  }
+}

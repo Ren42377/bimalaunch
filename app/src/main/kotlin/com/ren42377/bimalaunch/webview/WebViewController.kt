@@ -112,6 +112,17 @@ class WebViewController(
     }
 
     private fun loadConfiguredPage(view: WebView) {
+        if (config.practiceMode) {
+            val practiceUrl = runCatching {
+                com.ren42377.bimalaunch.practice.PracticeLocalServer.start(context)
+            }.getOrNull()
+            if (practiceUrl != null) {
+                view.loadUrl(practiceUrl)
+                return
+            }
+        } else {
+            runCatching { com.ren42377.bimalaunch.practice.PracticeLocalServer.stop() }
+        }
         val url = config.loginUrl.ifEmpty { "about:blank" }
         if (config.headers.isEmpty()) {
             view.loadUrl(url)
@@ -130,9 +141,21 @@ class WebViewController(
         }
     }
 
+    fun reloadIfConfigChanged() {
+        val view = webView ?: return
+        val next = WebViewConfig.fromNative()
+        if (next.practiceMode != config.practiceMode) {
+            config = next
+            loadConfiguredPage(view)
+        } else {
+            config = next
+        }
+    }
+
     fun destroy() {
         kiosk.setFakePinned(false)
         WebViewActionBridge.unregister(actions)
+        runCatching { com.ren42377.bimalaunch.practice.PracticeLocalServer.stop() }
         val view = webView ?: return
         webView = null
         view.stopLoading()

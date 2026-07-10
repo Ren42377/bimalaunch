@@ -37,21 +37,36 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.lifecycleScope
 import com.ren42377.bimalaunch.app.AppPreferences
+import com.ren42377.bimalaunch.clawd.ClawdDetectorConfig
+import com.ren42377.bimalaunch.clawd.ClawdLabelerBridge
+import com.ren42377.bimalaunch.clawd.ClawdModelDetector
+import com.ren42377.bimalaunch.clawd.VisualFrameFingerprint
 import com.ren42377.bimalaunch.core.NativeBridge
 import com.ren42377.bimalaunch.core.NativeLoader
 import com.ren42377.bimalaunch.floating.FloatingMenuLoader
+import com.ren42377.bimalaunch.floating.FloatingPanel
 import com.ren42377.bimalaunch.floating.FloatingState
 import com.ren42377.bimalaunch.ui.floating.InAppFloatingHost
 import com.ren42377.bimalaunch.ui.floating.resolveToolItems
+import com.ren42377.bimalaunch.ui.screens.ClawdLabelOverlay
 import com.ren42377.bimalaunch.ui.screens.LicenseScreen
 import com.ren42377.bimalaunch.ui.screens.PermissionScreen
 import com.ren42377.bimalaunch.ui.theme.BimalaunchTheme
 import com.ren42377.bimalaunch.webview.KioskController
+import com.ren42377.bimalaunch.webview.WebViewActionBridge
 import com.ren42377.bimalaunch.webview.WebViewController
 import com.ren42377.bimalaunch.webview.WebViewScreen
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.io.BufferedReader
+import kotlin.coroutines.resume
 
 class MainActivity : ComponentActivity(), KioskController {
 
@@ -71,6 +86,13 @@ class MainActivity : ComponentActivity(), KioskController {
 
     private var webViewController: WebViewController? = null
     private var webViewInstance: android.webkit.WebView? by mutableStateOf(null)
+
+    private var clawdDetectorInstance: ClawdModelDetector? = null
+    private val clawdDetector: ClawdModelDetector
+        get() = clawdDetectorInstance ?: ClawdModelDetector(this).also { clawdDetectorInstance = it }
+    private val clawdConfig: ClawdDetectorConfig by lazy { ClawdDetectorConfig.fromNative() }
+    private var clawdAlwaysOnLoopStarted = false
+    private var clawdLastFingerprint: IntArray? = null
 
     private val startupHandler = Handler(Looper.getMainLooper())
     private val resumeTransitionsRunnable = Runnable { handleResumeTransitions() }
@@ -99,6 +121,7 @@ class MainActivity : ComponentActivity(), KioskController {
                     val webView = webViewInstance
                     if (destination is StartupDestination.WebView && webView != null) {
                         WebViewScreen(webView = webView, modifier = Modifier.fillMaxSize())
+                        ClawdLabelOverlay(state = ClawdLabelerBridge.state, modifier = Modifier.fillMaxSize())
                         InAppFloatingHost(
                             state = floatingState,
                             geometryConfig = floatingGeometryConfig,
@@ -187,8 +210,99 @@ class MainActivity : ComponentActivity(), KioskController {
             floatingState.visible = false
         }
         floatingState.onToolClick = { item ->
-            floatingState.menuVisible = false
-            handleToolAction(item.action)
+            if (item.action == "open_clawd") {
+                floatingState.activePanel = FloatingPanel.CLAWD
+                floatingState.displayedPanel = FloatingPanel.CLAWD
+            } else {
+                floatingState.menuVisible = false
+                handleToolAction(item.action)
+            }
+        }
+        floatingState.onClawdBackClick = {
+            floatingState.activePanel = FloatingPanel.TOOLS
+            floatingState.displayedPanel = FloatingPanel.TOOLS
+        }
+        floatingState.onClawdDetectClick = { runClawdDetection() }
+        floatingState.onClawdAlwaysOnChange = { enabled ->
+            ClawdLabelerBridge.state.alwaysOnEnabled = enabled
+            AppPreferences.setString(this, "clawd_always_on", enabled.toString())
+        }
+        floatingState.onClawdDrawBoxChange = { enabled ->
+            ClawdLabelerBridge.state.drawBoxEnabled = enabled
+            AppPreferences.setString(this, "clawd_draw_box", enabled.toString())
+        }
+    }
+
+    private suspend fun captureWebViewBitmap(): android.graphics.Bitmap? =
+        suspendCancellableCoroutine { continuation ->
+            WebViewActionBridge.captureBitmap { bitmap ->
+                if (continuation.isActive) continuation.resume(bitmap)
+            }
+        }
+
+    private fun runClawdDetection() {
+        if (ClawdLabelerBridge.state.detecting) return
+        if (webViewInstance == null) return
+        ClawdLabelerBridge.state.detecting = true
+        lifecycleScope.launch {
+            val bitmap = captureWebViewBitmap()
+            if (bitmap == null) {
+                ClawdLabelerBridge.state.status = "Gagal mengambil screenshot"
+                ClawdLabelerBridge.state.detecting = false
+                return@launch
+            }
+            clawdLastFingerprint = VisualFrameFingerprint.compute(bitmap)
+            performDetection(bitmap)
+        }
+    }
+
+    private suspend fun performDetection(bitmap: android.graphics.Bitmap) {
+        ClawdLabelerBridge.state.viewportWidth = bitmap.width
+        ClawdLabelerBridge.state.viewportHeight = bitmap.height
+        val result = withContext(Dispatchers.Default) {
+            runCatching { clawdDetector.detect(bitmap, clawdConfig) }.getOrNull()
+        }
+        bitmap.recycle()
+        if (result != null) {
+            ClawdLabelerBridge.state.applyResult(result)
+        } else {
+            ClawdLabelerBridge.state.status = "Deteksi gagal"
+        }
+        ClawdLabelerBridge.state.detecting = false
+    }
+
+    private fun runClawdAlwaysOnTick() {
+        if (ClawdLabelerBridge.state.detecting) return
+        if (webViewInstance == null) return
+        lifecycleScope.launch {
+            val bitmap = captureWebViewBitmap() ?: return@launch
+            val fingerprint = VisualFrameFingerprint.compute(bitmap)
+            if (!VisualFrameFingerprint.isDifferent(clawdLastFingerprint, fingerprint)) {
+                bitmap.recycle()
+                return@launch
+            }
+            clawdLastFingerprint = fingerprint
+            ClawdLabelerBridge.state.detecting = true
+            performDetection(bitmap)
+        }
+    }
+
+    private fun startClawdAlwaysOnLoop() {
+        if (clawdAlwaysOnLoopStarted) return
+        clawdAlwaysOnLoopStarted = true
+        ClawdLabelerBridge.state.alwaysOnEnabled = AppPreferences
+            .getString(this, "clawd_always_on", clawdConfig.alwaysOnDefault.toString())
+            .toBoolean()
+        ClawdLabelerBridge.state.drawBoxEnabled = AppPreferences
+            .getString(this, "clawd_draw_box", clawdConfig.drawBoxDefault.toString())
+            .toBoolean()
+        lifecycleScope.launch {
+            while (isActive) {
+                if (ClawdLabelerBridge.state.alwaysOnEnabled) {
+                    runClawdAlwaysOnTick()
+                }
+                delay(clawdConfig.pollIntervalMs)
+            }
         }
     }
 
@@ -241,6 +355,7 @@ class MainActivity : ComponentActivity(), KioskController {
         webViewInstance = controller.create()
         floatingState.visible = true
         startupDestination = StartupDestination.WebView
+        startClawdAlwaysOnLoop()
     }
 
     private fun showPermissionScreen() {
@@ -349,6 +464,8 @@ class MainActivity : ComponentActivity(), KioskController {
         refreshPermissionUi()
         if (licenseVerified && webViewController == null) {
             proceedToPermissionFlow()
+        } else {
+            webViewController?.reloadIfConfigChanged()
         }
     }
 
@@ -413,6 +530,8 @@ class MainActivity : ComponentActivity(), KioskController {
         startupHandler.removeCallbacksAndMessages(null)
         webViewController?.destroy()
         webViewController = null
+        clawdDetectorInstance?.close()
+        clawdDetectorInstance = null
         if (isFinishing) {
             NativeBridge.shutdown()
         }

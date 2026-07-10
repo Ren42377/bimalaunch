@@ -6,7 +6,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 
 enum class FloatingPanel {
-    TOOLS
+    TOOLS,
+    CLAWD
 }
 
 data class FloatingToolItem(
@@ -59,4 +60,9 @@ class FloatingState {
     var onBubbleDiscard: () -> Unit = {}
     var onToolClick: (FloatingToolItem) -> Unit = {}
     var onDismissMenu: () -> Unit = {}
+
+    var onClawdBackClick: () -> Unit = {}
+    var onClawdDetectClick: () -> Unit = {}
+    var onClawdAlwaysOnChange: (Boolean) -> Unit = {}
+    var onClawdDrawBoxChange: (Boolean) -> Unit = {}
 }
