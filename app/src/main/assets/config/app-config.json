@@ -1,0 +1,16 @@
+{
+  "appName": "Bimalaunch",
+  "licenseMode": "dummy",
+  "website": {
+    "id": "example",
+    "loginUrl": "https://example.com/login",
+    "userAgent": "bimalaunch-host",
+    "selectors": {
+      "question": "[id^=\"soal-\"]",
+      "questionBody": ".q",
+      "options": ".options",
+      "optionLetter": ".inneroption"
+    },
+    "scripts": []
+  }
+}

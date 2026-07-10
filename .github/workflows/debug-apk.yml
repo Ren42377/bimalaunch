@@ -1,0 +1,100 @@
+name: Debug APK
+
+on:
+  workflow_dispatch:
+  push:
+
+permissions:
+  contents: read
+  actions: write
+
+concurrency:
+  group: debug-apk
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Delete previous APK artifacts
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const artifacts = await github.paginate(
+              github.rest.actions.listArtifactsForRepo,
+              {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                per_page: 100
+              }
+            )
+
+            const apkArtifacts = artifacts.filter(({ name }) => {
+              const normalizedName = name.toLowerCase()
+              return normalizedName.endsWith('.apk') || normalizedName.includes('apk')
+            })
+
+            core.info(`Found ${apkArtifacts.length} previous APK artifact(s).`)
+
+            for (const artifact of apkArtifacts) {
+              core.info(`Deleting ${artifact.name} (${artifact.id}).`)
+              await github.rest.actions.deleteArtifact({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                artifact_id: artifact.id
+              })
+            }
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install NDK and CMake
+        run: |
+          sdkmanager --install "ndk;27.0.12077973" "cmake;3.22.1"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-disabled: false
+          cache-read-only: false
+
+      - name: Build debug APK
+        run: sh gradlew assembleDebug --parallel --build-cache
+
+      - name: Prepare APK file
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+
+          debug_apks=(app/build/outputs/apk/debug/*.apk)
+
+          if [[ ${#debug_apks[@]} -ne 1 ]]; then
+            echo "Expected exactly one debug APK, found ${#debug_apks[@]}."
+            exit 1
+          fi
+
+          mkdir -p dist
+          cp "${debug_apks[0]}" dist/bimalaunch-debug.apk
+
+      - name: Upload debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: bimalaunch-debug.apk
+          path: dist/bimalaunch-debug.apk
+          retention-days: 3
+          if-no-files-found: error
+
+# Release signing is intentionally omitted for this milestone (debug-only).
+# Re-introduce a signingConfigs block + KEYSTORE_BASE64 secrets when a release build is needed.

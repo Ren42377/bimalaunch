@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Bimalaunch" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">#C6613F</item>
+        <item name="colorOnPrimary">#FAF9F5</item>
+        <item name="colorSurface">#FAF9F5</item>
+        <item name="colorOnSurface">#141413</item>
+        <item name="android:windowBackground">#FAF9F5</item>
+        <item name="android:statusBarColor">#FAF9F5</item>
+        <item name="android:navigationBarColor">#FAF9F5</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+</resources>
