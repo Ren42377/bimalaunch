@@ -26,7 +26,9 @@ std::string Core::initialize(const std::string& configJson) {
     website_ = website;
     license_ = std::make_unique<DummyLicenseProvider>();
     registry_.configure(appName, website_);
-    dispatcher_ = std::make_unique<Dispatcher>(registry_, *license_, website_);
+    scripts_.configure(website_);
+    applyInitialSettings(configJson);
+    dispatcher_ = std::make_unique<Dispatcher>(registry_, *license_, scripts_, state_, website_);
     initialized_ = true;
 
     json status;
@@ -35,6 +37,24 @@ std::string Core::initialize(const std::string& configJson) {
     status["licenseMode"] = license_->mode();
     status["websiteConfigured"] = website_.valid;
     return status.dump();
+}
+
+void Core::applyInitialSettings(const std::string& configJson) {
+    json root = json::parse(configJson, nullptr, false);
+    if (root.is_discarded() || !root.is_object()) {
+        return;
+    }
+    if (root.contains("settings") && root["settings"].is_object()) {
+        for (auto it = root["settings"].begin(); it != root["settings"].end(); ++it) {
+            if (it.value().is_string()) {
+                state_.putSetting(it.key(), it.value().get<std::string>());
+            } else if (it.value().is_boolean()) {
+                state_.putSetting(it.key(), it.value().get<bool>() ? "true" : "false");
+            } else if (it.value().is_number_integer()) {
+                state_.putSetting(it.key(), std::to_string(it.value().get<long long>()));
+            }
+        }
+    }
 }
 
 std::string Core::manifest() const {

@@ -1,15 +1,29 @@
 {
   "appName": "Bimalaunch",
   "licenseMode": "dummy",
+  "settings": {
+    "clawd_auto_mode": "balance",
+    "clawd_runtime": "cpu",
+    "practice_mode_enabled": "false"
+  },
   "website": {
     "id": "example",
     "loginUrl": "https://example.com/login",
-    "userAgent": "bimalaunch-host",
+    "userAgent": "",
+    "userAgentMarker": "bimalaunch-host",
+    "cookiePolicy": "accept_all",
     "selectors": {
       "question": "[id^=\"soal-\"]",
       "questionBody": ".q",
       "options": ".options",
       "optionLetter": ".inneroption"
+    },
+    "headers": {},
+    "autoLogin": {
+      "enabled": false,
+      "usernameSelector": "input[name=\"username\"]",
+      "passwordSelector": "input[name=\"password\"]",
+      "submitSelector": "button[type=\"submit\"]"
     },
     "scripts": []
   }

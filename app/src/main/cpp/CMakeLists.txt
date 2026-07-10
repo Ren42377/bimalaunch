@@ -13,6 +13,8 @@ add_library(nativecore SHARED
     core/Dispatcher.cpp
     core/License.cpp
     core/WebsiteConfig.cpp
+    core/ScriptManager.cpp
+    core/AntiCheat.cpp
 )
 
 target_include_directories(nativecore PRIVATE

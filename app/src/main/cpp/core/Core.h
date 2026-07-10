@@ -7,6 +7,8 @@
 #include "core/Dispatcher.h"
 #include "core/License.h"
 #include "core/Registry.h"
+#include "core/RuntimeState.h"
+#include "core/ScriptManager.h"
 #include "core/WebsiteConfig.h"
 
 namespace bimalaunch {
@@ -26,8 +28,12 @@ private:
     bool initialized_ = false;
     WebsiteConfig website_;
     Registry registry_;
+    ScriptManager scripts_;
+    RuntimeState state_;
     std::unique_ptr<LicenseProvider> license_;
     std::unique_ptr<Dispatcher> dispatcher_;
+
+    void applyInitialSettings(const std::string& configJson);
 };
 
 }

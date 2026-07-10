@@ -1,4 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Bimalaunch</string>
+
+    <string name="permission_title">Izin Diperlukan</string>
+    <string name="media_permission_desc">Agar lampiran AI dapat menampilkan galeri gambar perangkat, berikan izin akses foto</string>
+    <string name="grant_media_permission">Izinkan Foto</string>
+    <string name="installer_permission_desc">Agar aplikasi dapat memperbarui dirinya secara otomatis, berikan izin pemasangan dari sumber tidak dikenal</string>
+    <string name="grant_installer_permission">Izinkan Installer</string>
+
+    <string name="license_loading_title">Memeriksa Lisensi</string>
+    <string name="license_loading_desc">Aplikasi sedang memverifikasi akses perangkat</string>
+    <string name="license_title">Aktivasi Lisensi</string>
+    <string name="license_desc">Masukkan kode lisensi yang telah diberikan untuk mengaktifkan aplikasi pada perangkat ini</string>
+    <string name="license_verify">Verifikasi</string>
+    <string name="license_error_invalid">Kode lisensi tidak valid</string>
+    <string name="license_error_device">Lisensi ini sudah digunakan di perangkat lain</string>
+    <string name="license_error_network">Gagal terhubung ke server, periksa koneksi internet</string>
+    <string name="license_error_empty">Masukkan kode lisensi terlebih dahulu</string>
+
+    <string name="float_menu_title">Menu</string>
+    <string name="float_tool_clawd">Clawd</string>
+    <string name="float_tool_gemini">AI</string>
+    <string name="float_tool_settings">Pengaturan</string>
+    <string name="bubble_icon_description">Alat bantu mengambang</string>
+
+    <string name="settings_title">Pengaturan</string>
+    <string name="settings_open">Buka</string>
+    <string name="settings_back">Kembali</string>
+    <string name="settings_help">Bantuan</string>
+
+    <string name="gemini_input_hint">Tanya AI</string>
+    <string name="gemini_send_description">Kirim</string>
+    <string name="gemini_back_description">Kembali</string>
+
+    <string name="clawd_title">Clawd</string>
+    <string name="clawd_detect">Detect</string>
+    <string name="clawd_play_auto">Play Auto</string>
+    <string name="clawd_pause_auto">Pause Auto</string>
+    <string name="clawd_always_on">Always On</string>
+    <string name="clawd_draw_box">Draw Box</string>
+
+    <string name="webview_loading">Memuat halaman</string>
+    <string name="coming_soon">Segera hadir</string>
 </resources>

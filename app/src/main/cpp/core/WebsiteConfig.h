@@ -7,12 +7,23 @@
 
 namespace bimalaunch {
 
+struct AutoLoginConfig {
+    bool enabled = false;
+    std::string usernameSelector;
+    std::string passwordSelector;
+    std::string submitSelector;
+};
+
 struct WebsiteConfig {
     std::string id;
     std::string loginUrl;
     std::string userAgent;
+    std::string userAgentMarker;
     std::map<std::string, std::string> selectors;
+    std::map<std::string, std::string> headers;
     std::vector<std::string> scripts;
+    std::string cookiePolicy;
+    AutoLoginConfig autoLogin;
 
     bool valid = false;
 };
